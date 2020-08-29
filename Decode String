@@ -1,0 +1,32 @@
+class Solution {
+    public String decodeString(String s) {
+        if(s.length()==0 || s==null)
+            return "";
+        
+        Stack<Character> stack=new Stack<>();
+        for(int i=0;i<s.length();i++) {
+            if(s.charAt(i) == ']') {
+                StringBuilder sb=new StringBuilder();
+                while(stack.peek() != '[')
+                    sb.append(stack.pop());
+                sb.reverse();
+                stack.pop();
+                StringBuilder sbD=new StringBuilder();
+                while(!stack.isEmpty() && Character.isDigit(stack.peek()))
+                    sbD.append(stack.pop());
+                sbD.reverse();
+                int count=Integer.parseInt(sbD.toString());
+                for(int j=0;j<count;j++)
+                    for(char ch:sb.toString().toCharArray())
+                        stack.push(ch);
+            } else
+                stack.push(s.charAt(i));
+        }
+            
+            StringBuilder decoded=new StringBuilder();
+            while(!stack.isEmpty())
+                decoded.append(stack.pop());
+            decoded.reverse();
+            return decoded.toString();
+        }
+}
