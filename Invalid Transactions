@@ -1,0 +1,83 @@
+/*Time Complexity=O(n^2)
+Space Complexity=O(m) m being the resultant transactions 
+*/
+
+class Solution {
+    public List<String> invalidTransactions(String[] transactions) {
+        
+        if(transactions == null || transactions.length == 0) return new ArrayList<>();
+        HashSet<String> set = new HashSet<>();
+        int n=transactions.length;
+        for(int i=0;i<n;i++){
+            String[] token1=transactions[i].split(",");
+            if(Integer.valueOf(token1[2]) > 1000)
+                set.add(transactions[i]);
+            for(int j=i+1;j<n;j++) {
+                String[] token2=transactions[j].split(",");
+                if(token1[0].equals(token2[0]) && !token1[3].equals(token2[3]) && Math.abs(Integer.valueOf(token2[1])-Integer.valueOf(token1[1]))<=60) {
+                     set.add(transactions[i]);
+                     set.add(transactions[j]);
+                 }
+             }
+        }
+     return new ArrayList<>(set);
+      
+    }
+}   
+   
+// This doesnt work, try doing it when free        
+//         if(transactions == null || transactions.length == 0) return new ArrayList<>();
+        
+//         HashSet<String> set = new HashSet<>();
+//         Arrays.sort(transactions, new Comparator<String>(){
+//            @Override
+//             public int compare(String s1, String s2){
+//             String[] aArr = s1.split(",");
+//             String[] bArr = s2.split(",");
+
+//             //compare name
+//             int temp = aArr[0].compareTo(bArr[0]);
+//             if (temp != 0) {
+//                 return temp;
+//             } else {
+//                 //compare time
+//                 temp = Integer.compare(Integer.parseInt(aArr[1]), Integer.parseInt(bArr[1]));
+//                 if (temp != 0) {
+//                     return temp;
+//                 } else {
+//                     //compare place
+//                     temp = aArr[3].compareTo(bArr[3]);
+//                     if (temp != 0) {
+//                         return temp;
+//                     }
+//                 }
+//             }
+//             //compare amount
+//             return Integer.compare(Integer.parseInt(aArr[2]), Integer.parseInt(bArr[2]));
+//             }
+//         });
+
+//         int n=transactions.length;
+//         // for(int i=0;i<n;i++)
+//         // System.out.println(transactions[i]);
+       
+       
+//         for(int i=0;i<n;i++)
+//         {
+//             String[] token1=transactions[i].split(",");
+//            if(Integer.valueOf(token1[2]) > 1000)
+//                 set.add(transactions[i]);
+//             if(i!=0)
+//             {
+//             String[] token2=transactions[i-1].split(",");
+//      if(token1[0].equals(token2[0]) && !token1[3].equals(token2[3]) && Math.abs(Integer.valueOf(token2[1])-Integer.valueOf(token1[1]))<=60)
+//                  {
+//                      //System.out.println(Integer.valueOf(token2[1])-Integer.valueOf(token1[1]));
+//                      set.add(transactions[i]);
+//                      set.add(transactions[i-1]);
+//                  }
+//             }
+//         }
+              
+        
+//      return new ArrayList<>(set);
