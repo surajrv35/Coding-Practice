@@ -1,0 +1,46 @@
+class Solution {
+    public int[][] candyCrush(int[][] board) {
+        boolean crush=false;
+        int m=board.length, n=board[0].length;
+        for(int i=0;i<m;i++) {
+            for(int j=0;j<n;j++) {
+                //row wise checking
+                if(j<=n-3 && board[i][j] != 0
+                          && Math.abs(board[i][j]) == Math.abs(board[i][j+1])
+                          && Math.abs(board[i][j]) == Math.abs(board[i][j+2])) {
+                    crush=true;
+                    board[i][j]=-Math.abs(board[i][j]);
+                    board[i][j+1]=-Math.abs(board[i][j+1]);
+                    board[i][j+2]=-Math.abs(board[i][j+2]);
+                    
+                }
+                //column wise coding
+                if(i<=m-3 && board[i][j] != 0
+                          && Math.abs(board[i][j]) == Math.abs(board[i+1][j])
+                          && Math.abs(board[i][j]) == Math.abs(board[i+2][j])) {
+                    crush=true;
+                    board[i][j]=-Math.abs(board[i][j]);
+                    board[i+1][j]=-Math.abs(board[i+1][j]);
+                    board[i+2][j]=-Math.abs(board[i+2][j]);
+                    
+                }
+            }
+        }
+        //crush the elements by skipping them and inserting zeroes
+        for(int j=n-1;j>=0;j--) {
+            int index=m-1;
+            for(int i=m-1;i>=0;i--) {
+                if(board[i][j] > 0) {
+                    board[index][j]=board[i][j];
+                    index--;
+                }
+            }
+            while(index>=0) {
+                board[index][j]=0;
+                index--;
+            }
+        }
+        
+        return crush==true? candyCrush(board) : board;
+    }
+}
