@@ -1,0 +1,58 @@
+class Solution {
+    public String removeDuplicates(String s, int k) {
+        
+        // StringBuilder sb= new StringBuilder(s);
+        // int length=-1;
+        // while(length != sb.length()){
+        //     length=sb.length();
+        //     for(int i=0,count=0; i<sb.length();i++){
+        //         if (i == 0 || sb.charAt(i) != sb.charAt(i - 1)) {
+        //         count = 1;
+        //     } else if (++count == k) {
+        //         sb.delete(i - k + 1, i+1);
+        //         break;
+        //     }
+        // }
+        //     }
+        // return sb.toString();
+        
+//         char[] arr=s.toCharArray();
+//         Stack<StringBuilder> stack=new Stack<>();
+//         for(int i=0;i<arr.length;i++) {
+//             if(!stack.isEmpty() && arr[i]==stack.peek().charAt(0))
+//             {
+//                 StringBuilder remain=stack.pop();
+//                 if(remain.length()!=k-1)
+//                     stack.push(remain.append(arr[i]));
+//             } else {
+//                 stack.push(new StringBuilder(arr[i]+""));
+//             }
+//         }
+        
+//         StringBuilder res=new StringBuilder();
+//         while(!stack.isEmpty())
+//             res.append(stack.pop());
+//         return res.reverse().toString();
+        
+        Stack<Character> stack=new Stack<>();
+        Stack<Integer> count=new Stack<>();
+        for(char ch : s.toCharArray()) {
+            if(!stack.isEmpty() && !count.isEmpty() && stack.peek()==ch && count.peek()==k-1) {
+                while(!stack.isEmpty() && stack.peek()==ch)
+                    stack.pop();
+                count.pop();
+            } else {
+                int temp=1;
+                if(!count.isEmpty() && stack.peek() == ch)
+                    temp+=count.pop();
+                stack.push(ch);
+                count.push(temp);
+            }
+        }
+        StringBuilder sb=new StringBuilder();
+        while(!stack.isEmpty())
+            sb.append(stack.pop());
+        sb.reverse();
+        return sb.toString();
+    }
+}
