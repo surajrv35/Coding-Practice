@@ -1,0 +1,75 @@
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {        
+        ListNode n1 = reverse(l1);
+        ListNode n2 = reverse(l2);
+        
+        ListNode dummy_head=new ListNode(0);
+        ListNode temp=dummy_head;
+        
+        int carry=0;
+        while(n1 != null || n2 != null) {
+            int a=(n1 != null)?n1.val:0;
+            int b=(n2 != null)?n2.val:0;
+            
+            int cur_sum=a+b+carry;
+            carry=cur_sum/10;
+            
+            ListNode new_node=new ListNode(cur_sum%10);
+            temp.next=new_node;
+            
+            if(n1 != null) n1=n1.next;
+            if(n2 != null) n2=n2.next;
+            temp=temp.next;
+        }
+            
+            if(carry > 0) {
+                ListNode carry_node=new ListNode(carry);
+                temp.next=carry_node;
+                temp=temp.next;
+            }
+            
+        return reverse(dummy_head.next);
+    }
+    public ListNode reverse(ListNode head){
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode reverse=null, cursor=head, next;
+        while(cursor != null)
+        {
+            next=cursor.next;
+            cursor.next = reverse;
+            reverse=cursor;
+            cursor=next;
+        }
+        return reverse;
+    }
+}
+
+
+Follow up:
+What if you cannot modify the input lists? In other words, reversing the lists is not allowed.
+//         Stack<Integer> s1=new Stack<>();
+//         Stack<Integer> s2=new Stack<>();
+        
+//         while(l1 != null) {
+//             s1.push(l1.val);
+//             l1=l1.next;
+//         }
+//         while(l2 != null) {
+//             s2.push(l2.val);
+//             l2=l2.next;
+//         }
+        
+//         int sum=0;
+//         ListNode list=new ListNode(0);
+//         while(!s1.isEmpty() || !s2.isEmpty()) {
+//             if(!s1.isEmpty()) sum+=s1.pop();
+//             if(!s2.isEmpty()) sum+=s2.pop();
+//             list.val=sum%10;
+//             ListNode head=new ListNode(sum/10);
+//             head.next=list;
+//             list=head;
+//             sum/=10;
+//         }
+//         return list.val==0?list.next:list;
