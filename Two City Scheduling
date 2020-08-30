@@ -1,0 +1,30 @@
+/*1. Send all person to city A, Cost  = 10 + 30 + 400 + 30 = 470 
+2. Check how much diff we will get if we send person to city B instead of city A
+	Diff for  person1, D1 20 - 10 = 10 
+	Diff for  person2, D2 200 - 30 = 170 
+	Diff for  person3, D3 50 - 400 = -350 
+	Diff for  person4, D4 20 - 30 = -10 
+3. Sort the diff cost of persons - D3, D4, D1, D2 
+4. Now we will pick N person which giving more diff to sending them city  B instead of city A, P3, P4 we will send them to city B
+5. Add the diff cost of N person in Cost = 470 - 350 - 10 = 110 
+Time=O(NlogN) Space=O(N)
+*/
+class Solution {
+    public int twoCitySchedCost(int[][] costs) {
+        int minCost = 0;
+        int N = costs.length / 2;
+        for (int i = 0; i < 2 * N; i++)
+            minCost += costs[i][0]; // get cost to send everyone to city A
+
+        int[] diff = new int[2 * N];
+        for (int i = 0; i < 2 * N; i++)
+            diff[i] = costs[i][1] - costs[i][0]; // compute the diff of sending B instead of A
+
+        Arrays.sort(diff); // sort the diff Array
+        for (int i = 0; i < N; i++)
+            minCost += diff[i]; // send first N to city B
+
+        return minCost;
+        
+    }
+}
