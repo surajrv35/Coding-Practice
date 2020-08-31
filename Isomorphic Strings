@@ -1,0 +1,23 @@
+//time=O(string length), space=O(string length)
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+     if(s.length() != t.length()) return false;
+     
+     HashMap<Character, Character> stMap=new HashMap<>();
+     HashMap<Character, Character> tsMap=new HashMap<>();
+        
+     for(int i=0;i<s.length();i++){
+         char S=s.charAt(i);
+         char T=t.charAt(i);
+         if(!stMap.containsKey(S))
+             stMap.put(S, T);
+         else
+             if(T!=stMap.get(S)) return false;
+         if(!tsMap.containsKey(T))
+             tsMap.put(T, S);
+         else
+             if(S!=tsMap.get(T)) return false;
+     }
+        return true;
+    }
+}
