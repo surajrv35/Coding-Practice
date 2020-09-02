@@ -1,0 +1,32 @@
+class Solution {
+    /* [0,1,2] index
+       [2,5,3] weight/frequency/occurence of index
+       [0,0,1,1,1,1,1,2,2,2]
+       c_sum=[2,7,10]
+    */
+    int[] c_sum;
+    public Solution(int[] w) {
+        c_sum=new int[w.length];
+        int sum=0;
+        for(int i=0;i<w.length;i++) {
+            sum+=w[i];
+            c_sum[i]=sum;
+        }
+        
+    }
+    
+    public int pickIndex() {
+        int randomNo=(int)(c_sum[c_sum.length-1]*Math.random());
+        for(int i=0;i<c_sum.length;i++) {
+            if(randomNo < c_sum[i])
+                return i;
+        }
+        return -1;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(w);
+ * int param_1 = obj.pickIndex();
+ */
