@@ -1,0 +1,26 @@
+//Time=O(m*n), Space=O(m*n) recursive stack space
+class Solution {
+    // X=start, O=outOfBound/0, up=U, left=L, right=R, down=D
+    public int numDistinctIslands(int[][] grid) {
+        int m=grid.length, n=grid[0].length;
+        Set<String> set=new HashSet<>();
+        for(int i=0;i<m;i++) {
+            for(int j=0;j<n;j++) {
+                if(grid[i][j] == 1) {
+                    String path=DFSMarking(grid, i, j, "X");
+                    set.add(path);
+                }
+            }
+        }
+        return set.size();
+    }
+        private String DFSMarking(int[][] grid, int i, int j, String direction) {
+            if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j] != 1) return "O";
+            grid[i][j]=0;
+            String up=DFSMarking(grid, i-1, j, "U");
+            String right=DFSMarking(grid, i, j+1, "R");
+            String down=DFSMarking(grid, i+1, j, "D");
+            String left=DFSMarking(grid, i, j-1, "L");
+            return direction+up+left+down+right;
+        }
+}
